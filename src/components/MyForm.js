@@ -1,9 +1,10 @@
 import Input from "@mui/material/Input";
+
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserSlice } from "../redux/slice/user";
 import { nanoid } from "@reduxjs/toolkit";
-import { CREATE_USER,  } from "../redux/types";
+import { CREATE_USER, UPDATE_USER_BY_ID } from "../redux/types";
 
 const MyForm = () => {
   const user = useSelector((state) => state.user);
@@ -11,11 +12,11 @@ const MyForm = () => {
   const handleChange = (prop) => (event) => {
     dispatch(setUserSlice({ ...user, [prop]: event.target.value }));
   };
-
   const handleSubmit = () => {
-  
-       dispatch({ type: CREATE_USER, user: { ...user, id: nanoid(8) } })
-   
+    user.id === 0
+      ? dispatch({ type: CREATE_USER, user: { ...user, id: nanoid(8) } })
+      : dispatch({ type: UPDATE_USER_BY_ID, user });
+
     dispatch(
       setUserSlice({
         id: 0,
